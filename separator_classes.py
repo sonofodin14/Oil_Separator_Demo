@@ -53,7 +53,7 @@ def on_connect(client, userdata, flags, reason_code, properties):
         reason_code (mqtt.ReasonCode): The connection result code.
         properties (dict): MQTT v5 properties.
     """
-    print(f"[>] {datetime.now()} Connected with reason code {reason_code}")
+    logging.info("Connected with reason code {reason_code}")
 
 def on_publish(client, userdata, mid, reason_code, properties):
     """
@@ -67,7 +67,7 @@ def on_publish(client, userdata, mid, reason_code, properties):
         reason_code (mqtt.ReasonCode): The connection result code.
         properties (dict): MQTT v5 properties.
     """
-    print(f"[>] {datetime.now()} Published message successfully")
+    logging.info("Published message successfully")
 
 class ActuatedValve():
     """
