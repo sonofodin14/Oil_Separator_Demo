@@ -16,31 +16,9 @@ import logging
 # Internal Dependency Imports
 import separator_classes
 
-# Configure logger
-logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(asctime)s - %(message)s')
-
-# Initialise parser
-parser = argparse.ArgumentParser()
-parser.add_argument("-b", "--Broker", help="MQTT broker IP address to connect to. Leave empty to not connect to MQTT")
-args = parser.parse_args()
-
-# Sets up MQTT variables depending on args
-if args.Broker:
-    logging.info(f"Broker provided. MQTT enabled, connecting to broker {args.Broker}.")
-    mqtt_connect_choice = True
-    broker_ip = args.Broker
-else:
-    logging.warning("Broker not provided. MQTT not enabled.")
-    mqtt_connect_choice = False
-    broker_ip = ""
-
 # Example Broker IP's
-# broker_ip_1 = "192.168.1.3" # IP of Flow rig broker
-# broker_ip_2 = "broker.emqx.io" # Public testing broker
-
-demo_separator = separator_classes.Separator(mqtt_connect=mqtt_connect_choice, mqtt_broker=broker_ip)
-demo_separator.input_rate = 2
-demo_separator.gas_valve.PID_data["setpoint"] = 20000
+# IP of Flow rig broker: "192.168.1.3"
+# Public testing broker: "broker.emqx.io"
 
 def main():
     logging.info("Simulation starting now...")
@@ -61,4 +39,28 @@ def main():
             logging.error(f"Unexpected runtime error occurred: {e}")
 
 if __name__ == "__main__":
+    # Configure logger
+    logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(asctime)s - %(message)s')
+
+    # Initialise parser
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-b", "--Broker", help="MQTT broker IP address to connect to. Leave empty to not connect to MQTT")
+    args = parser.parse_args()
+
+    # Sets up MQTT variables depending on args
+    if args.Broker:
+        logging.info(f"Broker provided. MQTT enabled, connecting to broker {args.Broker}.")
+        mqtt_connect_choice = True
+        broker_ip = args.Broker
+    else:
+        logging.warning("Broker not provided. MQTT not enabled.")
+        mqtt_connect_choice = False
+        broker_ip = ""
+
+    # Create Separator object and set initial values
+    demo_separator = separator_classes.Separator(mqtt_connect=mqtt_connect_choice, mqtt_broker=broker_ip)
+    demo_separator.input_rate = 2
+    demo_separator.gas_valve.PID_data["setpoint"] = 20000
+
+    # Run main loop
     main()

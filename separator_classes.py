@@ -193,6 +193,9 @@ class ModulatingValve(ActuatedValve):
                 setpoint (int): The setpoint that the control algorithm aims toward.
                 dt (float): The timestep for each control loop.
                 speed (int/float): The change in actuator position every time frame.
+                kp (float): The proportional gain of the PID control. Default = 0.04
+                ki (float): The integral gain of the PID control. Default = 0.00095
+                kd (float): The differential gain of the PID control. Default = 0
         """
         if not isinstance(dt, float) or dt <= 0:
             raise ValueError("dt must be of type float and be greater than 0")
@@ -303,7 +306,6 @@ class Separator():
 
             Parameters:
                 mqtt_connect (bool): Determines whether or not the Separator object will connect to MQTT. False by default.
-
                 mqtt_broker (str): The IP address for the MQTT broker the object will connect to. 'test.mosquitto.org' by default.
         """
         if not isinstance(mqtt_connect, bool):
